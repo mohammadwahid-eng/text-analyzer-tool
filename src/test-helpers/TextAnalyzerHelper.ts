@@ -10,12 +10,36 @@ class TextAnalyzerHelper {
     });
   }
 
-  async createParagraph(payload: IParagraph): Promise<AxiosResponse> {
+  async createParagraph(payload: IParagraph) {
     return this.axios.post('/paragraphs', payload);
   }
 
-  async getAllParagraphs(): Promise<AxiosResponse> {
+  async getAllParagraphs() {
     return this.axios.get('/paragraphs');
+  }
+
+  async getParagraph(paragraphId: string) {
+    return this.axios.get(`/paragraphs/${paragraphId}`);
+  }
+
+  async getParagraphWordsCount(paragraphId: string) {
+    return this.axios.get(`/paragraphs/${paragraphId}/words`);
+  }
+
+  async getParagraphCharactersCount(paragraphId: string) {
+    return this.axios.get(`/paragraphs/${paragraphId}/characters`);
+  }
+
+  async getParagraphSentencesCount(paragraphId: string) {
+    return this.axios.get(`/paragraphs/${paragraphId}/sentences`);
+  }
+
+  async getParagraphCount(paragraphId: string) {
+    return this.axios.get(`/paragraphs/${paragraphId}/count`);
+  }
+
+  async getParagraphLongestWords(paragraphId: string) {
+    return this.axios.get(`/paragraphs/${paragraphId}/longest-words`);
   }
 }
 
