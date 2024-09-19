@@ -6,7 +6,7 @@ class TextAnalyzerHelper {
   constructor() {
     this.axios = client.create({
       baseURL: 'http://localhost:3000/api',
-      timeout: 30000
+      timeout: 30000,
     });
   }
 
@@ -44,6 +44,10 @@ class TextAnalyzerHelper {
 
   async updateParagraph(paragraphId: string, payload: IParagraph) {
     return this.axios.patch(`/paragraphs/${paragraphId}`, payload);
+  }
+
+  async deleteParagraph(paragraphId: string) {
+    return this.axios.delete(`/paragraphs/${paragraphId}`);
   }
 }
 

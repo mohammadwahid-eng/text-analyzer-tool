@@ -159,3 +159,14 @@ export const updateParagraph = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Oops! failed to update paragraph.' });
   }
 }
+
+export const deleteParagraph = async (req: Request, res: Response) => {
+  try {
+    const { id: paragraphId } = req.params;
+
+    await Paragraph.findByIdAndDelete(paragraphId);
+    return res.status(204).send();
+  } catch(error) {
+    return res.status(500).json({ message: 'Oops! failed to delete paragraph.' });
+  }
+}

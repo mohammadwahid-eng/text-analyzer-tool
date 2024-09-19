@@ -14,7 +14,7 @@ describe('Text Analyzer API Test', () => {
 
   afterEach(async () => {
     // created test data removed
-
+    await textAnalyzer.deleteParagraph(paragraphId);
   });
 
   describe('POST /paragraphs --> create paragraph', () => {
@@ -24,6 +24,11 @@ describe('Text Analyzer API Test', () => {
       expect(response.status).toEqual(201);
       expect(response.data.body).toEqual(body);
       expect(response.data).toMatchSchema(paragraphSchema);
+
+      // for other tests case, a new paragraph is created and deleted automatically.
+      // since this test is only for paragraph creation
+      // we have to delete it manually to undo the state.
+      await textAnalyzer.deleteParagraph(response.data._id);
     });
   });
 
@@ -100,6 +105,9 @@ describe('Text Analyzer API Test', () => {
   });
 
   describe('DELETE /paragraphs/:id --> delete paragraph', () => {
-    test.todo('should delete a paragraph by id');
+    test('should delete a paragraph by id', async () => {
+      const response = await textAnalyzer.deleteParagraph(paragraphId);
+      expect(response.status).toEqual(204);
+    });
   });
 });
