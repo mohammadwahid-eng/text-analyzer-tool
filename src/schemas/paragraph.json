@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "_id": { "type": "string" },
+    "body": { "type": "string" },
+    "totalWords": { "type": "number" },
+    "totalCharacters": { "type": "number" },
+    "totalSentences": { "type": "number" },
+    "totalParagraphs": { "type": "number" },
+    "longestWords": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["_id", "body", "totalWords", "totalCharacters", "totalSentences", "totalParagraphs", "longestWords"]
+}

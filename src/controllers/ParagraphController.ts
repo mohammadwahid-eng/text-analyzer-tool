@@ -18,3 +18,12 @@ export const createParagraph = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Oops! failed to create paragraph.' });
   }
 }
+
+export const getAllParagraphs = async (req: Request, res: Response) => {
+  try {
+    const paragraphs = await Paragraph.find();
+    return res.status(200).json(paragraphs);
+  } catch(error) {
+    return res.status(500).json({ message: 'Oops! failed to get paragraphs.' });
+  }
+}

@@ -1,4 +1,4 @@
-import client, { AxiosInstance } from "axios";
+import client, { AxiosInstance, AxiosResponse } from "axios";
 import { IParagraph } from "../interfaces/IParagraph";
 
 class TextAnalyzerHelper {
@@ -10,8 +10,12 @@ class TextAnalyzerHelper {
     });
   }
 
-  async createParagraph(payload: IParagraph) {
+  async createParagraph(payload: IParagraph): Promise<AxiosResponse> {
     return this.axios.post('/paragraphs', payload);
+  }
+
+  async getAllParagraphs(): Promise<AxiosResponse> {
+    return this.axios.get('/paragraphs');
   }
 }
 
