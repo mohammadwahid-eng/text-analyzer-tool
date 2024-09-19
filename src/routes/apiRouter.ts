@@ -1,9 +1,8 @@
 import { Request, Response, Router } from 'express';
+import * as ParagraphController from '../controllers/ParagraphController';
 
 const apiRouter: Router = Router();
 
-apiRouter.get('/', (req: Request, res: Response) => {
-  res.status(200).json({ message: "Response from text-analyzer-tool:api" });
-});
+apiRouter.post('/paragraphs', ParagraphController.createParagraph);;
 
 export default apiRouter;

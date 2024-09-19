@@ -1,6 +1,16 @@
-describe('Text Analyzer API Test', () => {
+import TextAnalyzerHelper from "../../test-helpers/TextAnalyzerHelper";
+
+describe('Text Analyzer API Test', () => {  
+  const textAnalyzer = new TextAnalyzerHelper();
+  
   describe('POST /paragraphs', () => {
-    test.todo('should creare a paragraph');
+    test('should creare a paragraph', async () => {
+      const body = '"The quick brown fox jumps over the lazy dog. The lazy dog slept in the sun."';
+      const response = await textAnalyzer.createParagraph({ body });
+      console.log(response.data);
+      expect(response.status).toEqual(201);
+      expect(response.data.body).toEqual(body);
+    });
   });
 
   describe('GET /paragraphs', () => {
