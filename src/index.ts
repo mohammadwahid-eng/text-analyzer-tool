@@ -4,11 +4,15 @@ import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
 import { webRouter, apiRouter } from './routes';
+import * as database from './config/database';
 
 // initialize
 dotenv.config();
 const app: Application = express();
-const port: Number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+
+// database connection
+database.connect();
 
 // middlewares
 app.use(cors());
