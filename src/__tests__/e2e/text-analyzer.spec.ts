@@ -17,7 +17,7 @@ describe('Text Analyzer API Test', () => {
 
   });
 
-  describe('POST /paragraphs', () => {
+  describe('POST /paragraphs --> create paragraph', () => {
     test('should creare a paragraph', async () => {
       const body = 'The swift red fox leaps over the sleepy cat. The sleepy cat basked in the warm sun.';
       const response = await textAnalyzer.createParagraph({ body });
@@ -27,7 +27,7 @@ describe('Text Analyzer API Test', () => {
     });
   });
 
-  describe('GET /paragraphs', () => {
+  describe('GET /paragraphs --> get all paragraphs', () => {
     test('GET / --> should get list of paragraphs', async () => {
       const response = await textAnalyzer.getAllParagraphs();
       expect(response.status).toEqual(200);
@@ -36,7 +36,7 @@ describe('Text Analyzer API Test', () => {
     });
   });
 
-  describe('GET /paragraphs/:id', () => {
+  describe('GET /paragraphs/:id --> get single paragraph', () => {
     test('should get a paragraph by id', async () => {
       const response = await textAnalyzer.getParagraph(paragraphId);
       expect(response.status).toEqual(200);
@@ -88,11 +88,18 @@ describe('Text Analyzer API Test', () => {
     });
   });
 
-  describe('PATCH /paragraphs/:id', () => {
-    test.todo('should update a paragraph by id');
+  describe('PATCH /paragraphs/:id --> update paragraph', () => {
+    test('should update a paragraph by id', async () => {
+      const body = 'This is updated text.';
+      const response = await textAnalyzer.updateParagraph(paragraphId, { body });
+      expect(response.status).toEqual(200);
+      expect(response.data._id).toEqual(paragraphId);
+      expect(response.data.body).toEqual(body);
+      expect(response.data).toMatchSchema(paragraphSchema);
+    });
   });
 
-  describe('DELETE /paragraphs/:id', () => {
+  describe('DELETE /paragraphs/:id --> delete paragraph', () => {
     test.todo('should delete a paragraph by id');
   });
 });

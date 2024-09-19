@@ -6,6 +6,7 @@ const apiRouter: Router = Router();
 apiRouter.post('/paragraphs', ParagraphController.createParagraph);
 apiRouter.get('/paragraphs', ParagraphController.getAllParagraphs);
 apiRouter.get('/paragraphs/:id', ParagraphController.getParagraph);
+apiRouter.patch('/paragraphs/:id', ParagraphController.updateParagraph);
 
 /**
  * We should not use individual method for getting each propery of a paragraph.

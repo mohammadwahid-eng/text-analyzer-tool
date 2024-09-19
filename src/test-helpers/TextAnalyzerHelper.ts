@@ -1,4 +1,4 @@
-import client, { AxiosInstance, AxiosResponse } from "axios";
+import client, { AxiosInstance } from "axios";
 import { IParagraph } from "../interfaces/IParagraph";
 
 class TextAnalyzerHelper {
@@ -40,6 +40,10 @@ class TextAnalyzerHelper {
 
   async getParagraphLongestWords(paragraphId: string) {
     return this.axios.get(`/paragraphs/${paragraphId}/longest-words`);
+  }
+
+  async updateParagraph(paragraphId: string, payload: IParagraph) {
+    return this.axios.patch(`/paragraphs/${paragraphId}`, payload);
   }
 }
 
