@@ -1,0 +1,45 @@
+{
+  "name": "text-analyzer-tool",
+  "version": "0.1.0",
+  "description": "This application generates count of words, characters, sentences, paragraphs, longest word in the paragraph.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammadwahid-eng/text-analyzer-tool.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "Express",
+    "MongoDB",
+    "Typescript",
+    "OAuth2"
+  ],
+  "author": "Mohammad Wahid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohammadwahid-eng/text-analyzer-tool/issues"
+  },
+  "homepage": "https://github.com/mohammadwahid-eng/text-analyzer-tool#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/helmet": "^4.0.0",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.5.5",
+    "nodemon": "^3.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
+  }
+}
