@@ -1,4 +1,4 @@
-import { PreMiddlewareFunction, PreSaveMiddlewareFunction, Schema, model } from 'mongoose';
+import { PreSaveMiddlewareFunction, Schema, model } from 'mongoose';
 import { IParagraph } from '../interfaces/IParagraph';
 
 const paragraphSchema = new Schema<IParagraph>({
@@ -8,6 +8,7 @@ const paragraphSchema = new Schema<IParagraph>({
   totalSentences: { type: Number, default: 0 },
   totalParagraphs: { type: Number, default: 0 },
   longestWords: { type: [String], default: [] },
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
 
 const calculation = (body: string) => {
@@ -55,31 +56,11 @@ const handlePreSave: PreSaveMiddlewareFunction = function(next) {
   this.totalCharacters = totalCharacters;
   this.totalSentences = totalSentences;
   this.totalParagraphs = totalParagraphs;
-  this.longestWords  = this.longestWords ? this.longestWords.concat(longestWords) : [];
-  next();
-}
-
-const handlePreUpdate: PreMiddlewareFunction = function(next) {
-  const update: IParagraph = this.getUpdate();
-  const {
-    totalWords,
-    totalCharacters,
-    totalSentences,
-    totalParagraphs,
-    longestWords,
-  } = calculation(update.body);
-  update.totalWords      = totalWords;
-  update.totalCharacters = totalCharacters;
-  update.totalSentences  = totalSentences;
-  update.totalParagraphs = totalParagraphs;
-  update.longestWords    = longestWords;
+  this.longestWords  = longestWords;
   next();
 }
 
 paragraphSchema.pre('save', handlePreSave);
-paragraphSchema.pre('findOneAndUpdate', handlePreUpdate);
-paragraphSchema.pre('updateOne', handlePreUpdate);
-paragraphSchema.pre('updateMany', handlePreUpdate);
 
 const Paragraph = model<IParagraph>('Paragraph', paragraphSchema);
 

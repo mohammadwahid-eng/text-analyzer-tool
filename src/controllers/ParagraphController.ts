@@ -11,7 +11,7 @@ export const createParagraph = async (req: Request, res: Response) => {
   
   try {
     const { body } = req.body;
-    const paragraph = new Paragraph({ body });
+    const paragraph = new Paragraph({ body, userId: req.user?._id });
     await paragraph.save();
     return res.status(201).json(paragraph);
   } catch(error) {
@@ -21,7 +21,7 @@ export const createParagraph = async (req: Request, res: Response) => {
 
 export const getAllParagraphs = async (req: Request, res: Response) => {
   try {
-    const paragraphs = await Paragraph.find();
+    const paragraphs = await Paragraph.find({ userId: req.user?._id });
     return res.status(200).json(paragraphs);
   } catch(error) {
     return res.status(500).json({ message: 'Oops! failed to get paragraphs.' });
@@ -34,6 +34,8 @@ export const getParagraph = async (req: Request, res: Response) => {
 
     const paragraph = await Paragraph.findById(paragraphId);
     if( ! paragraph ) return res.status(404).json({ message: 'Sorry! no paragraph found.' });
+
+    if( paragraph.userId?.toString() !== req.user?._id ) return res.status(403).json({ message: 'Access forbidden' });
 
     return res.status(200).json(paragraph);
   } catch(error) {
@@ -54,6 +56,8 @@ export const getParagraph = async (req: Request, res: Response) => {
 //     const paragraph = await Paragraph.findById(paragraphId);
 //     if( ! paragraph ) return res.status(404).json({ message: 'Sorry! no paragraph found.' });
 
+//     if( paragraph.userId?.toString() !== req.user?._id ) return res.status(403).json({ message: 'Access forbidden' });
+
 //     return res.status(200).json({ count: paragraph.totalWords });
 //   } catch(error) {
 //     return res.status(500).json({ message: 'Oops! failed to get the paragraph.' });
@@ -66,6 +70,8 @@ export const getParagraph = async (req: Request, res: Response) => {
 
 //     const paragraph = await Paragraph.findById(paragraphId);
 //     if( ! paragraph ) return res.status(404).json({ message: 'Sorry! no paragraph found.' });
+
+//     if( paragraph.userId?.toString() !== req.user?._id ) return res.status(403).json({ message: 'Access forbidden' });
 
 //     return res.status(200).json({ count: paragraph.totalCharacters });
 //   } catch(error) {
@@ -80,6 +86,8 @@ export const getParagraph = async (req: Request, res: Response) => {
 //     const paragraph = await Paragraph.findById(paragraphId);
 //     if( ! paragraph ) return res.status(404).json({ message: 'Sorry! no paragraph found.' });
 
+//     if( paragraph.userId?.toString() !== req.user?._id ) return res.status(403).json({ message: 'Access forbidden' });
+
 //     return res.status(200).json({ count: paragraph.totalSentences });
 //   } catch(error) {
 //     return res.status(500).json({ message: 'Oops! failed to get the paragraph.' });
@@ -92,6 +100,8 @@ export const getParagraph = async (req: Request, res: Response) => {
 
 //     const paragraph = await Paragraph.findById(paragraphId);
 //     if( ! paragraph ) return res.status(404).json({ message: 'Sorry! no paragraph found.' });
+
+//     if( paragraph.userId?.toString() !== req.user?._id ) return res.status(403).json({ message: 'Access forbidden' });
 
 //     return res.status(200).json({ count: paragraph.totalParagraphs });
 //   } catch(error) {
@@ -106,6 +116,8 @@ export const getParagraph = async (req: Request, res: Response) => {
 //     const paragraph = await Paragraph.findById(paragraphId);
 //     if( ! paragraph ) return res.status(404).json({ message: 'Sorry! no paragraph found.' });
 
+//     if( paragraph.userId?.toString() !== req.user?._id ) return res.status(403).json({ message: 'Access forbidden' });
+
 //     return res.status(200).json({ words: paragraph.longestWords });
 //   } catch(error) {
 //     return res.status(500).json({ message: 'Oops! failed to get the paragraph.' });
@@ -118,6 +130,8 @@ export const getParagraphProperty = async (req: Request, res: Response) => {
 
     const paragraph = await Paragraph.findById(paragraphId);
     if( ! paragraph ) return res.status(404).json({ message: 'Sorry! no paragraph found.' });
+
+    if( paragraph.userId?.toString() !== req.user?._id ) return res.status(403).json({ message: 'Access forbidden' });
 
     switch(req.route.path) {
       case '/paragraphs/:id/words':
@@ -150,9 +164,15 @@ export const updateParagraph = async (req: Request, res: Response) => {
   try {
     const { id: paragraphId } = req.params;
     const { body } = req.body;
-
-    const paragraph = await Paragraph.findByIdAndUpdate(paragraphId, { body }, { new: true });
+    
+    const paragraph = await Paragraph.findById(paragraphId);
+    
     if( ! paragraph ) return res.status(404).json({ message: 'Sorry! no paragraph found.' });
+
+    if( paragraph.userId?.toString() !== req.user?._id ) return res.status(403).json({ message: 'Access forbidden' });
+
+    paragraph.body = body;
+    await paragraph.save();
 
     return res.status(200).json(paragraph);
   } catch(error) {
@@ -164,7 +184,13 @@ export const deleteParagraph = async (req: Request, res: Response) => {
   try {
     const { id: paragraphId } = req.params;
 
-    await Paragraph.findByIdAndDelete(paragraphId);
+    const paragraph = await Paragraph.findById(paragraphId);
+    
+    if( ! paragraph ) return res.status(404).json({ message: 'Sorry! no paragraph found.' });
+
+    if( paragraph.userId?.toString() !== req.user?._id ) return res.status(403).json({ message: 'Access forbidden' });
+
+    await paragraph.deleteOne();
     return res.status(204).send();
   } catch(error) {
     return res.status(500).json({ message: 'Oops! failed to delete paragraph.' });

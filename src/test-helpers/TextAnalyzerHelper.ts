@@ -1,5 +1,4 @@
 import client, { AxiosInstance } from "axios";
-import { IParagraph } from "../interfaces/IParagraph";
 
 class TextAnalyzerHelper {
   axios: AxiosInstance;
@@ -10,8 +9,12 @@ class TextAnalyzerHelper {
     });
   }
 
-  async createParagraph(payload: IParagraph) {
-    return this.axios.post('/paragraphs', payload);
+  setAuthToken(token: string) {
+    this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+  }
+
+  async createParagraph({ body }: { body: string }) {
+    return this.axios.post('/paragraphs', { body });
   }
 
   async getAllParagraphs() {
@@ -42,8 +45,8 @@ class TextAnalyzerHelper {
     return this.axios.get(`/paragraphs/${paragraphId}/longest-words`);
   }
 
-  async updateParagraph(paragraphId: string, payload: IParagraph) {
-    return this.axios.patch(`/paragraphs/${paragraphId}`, payload);
+  async updateParagraph(paragraphId: string, { body }: { body: string }) {
+    return this.axios.patch(`/paragraphs/${paragraphId}`, { body });
   }
 
   async deleteParagraph(paragraphId: string) {
