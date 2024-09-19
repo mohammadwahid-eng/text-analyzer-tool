@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
+import { rateLimit } from 'express-rate-limit';
 import { webRouter, apiRouter } from './routes';
 import * as database from './config/database';
 
@@ -20,6 +21,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(rateLimit({ windowMs: 1 * 60 * 1000, limit: 100 })); // 100 requests / min
 
 // routes
 app.use(webRouter);
