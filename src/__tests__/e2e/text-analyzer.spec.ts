@@ -17,7 +17,7 @@ describe('Text Analyzer API Test', () => {
     // login user
     await authHelper.register({ name: 'John', ...user});
     const response = await authHelper.login(user);
-    token = response.data.token.user._id;
+    token = response.data.token;
   });
 
   beforeEach(async () => {
@@ -65,7 +65,7 @@ describe('Text Analyzer API Test', () => {
       const credentials: ILoginUser = { email: `lory+${Date.now()}@gmail.com`, password: '123456' }
       await authHelper.register({ name: 'Lory', ...credentials });
       const login = await authHelper.login(credentials);
-      const token2 = login.data.token.user._id;
+      const token2 = login.data.token;
       textAnalyzer.setAuthToken(token2);
       textAnalyzer.getParagraph(paragraphId).catch(error => {
         expect(error.status).toEqual(403);
@@ -132,7 +132,7 @@ describe('Text Analyzer API Test', () => {
       const credentials: ILoginUser = { email: `lory+${Date.now()}@gmail.com`, password: '123456' }
       await authHelper.register({ name: 'Lory', ...credentials });
       const login = await authHelper.login(credentials);
-      const token2 = login.data.token.user._id;
+      const token2 = login.data.token;
       textAnalyzer.setAuthToken(token2);
       textAnalyzer.updateParagraph(paragraphId, { body: 'New content' }).catch(error => {
         expect(error.status).toEqual(403);
@@ -151,7 +151,7 @@ describe('Text Analyzer API Test', () => {
       const credentials: ILoginUser = { email: `lory+${Date.now()}@gmail.com`, password: '123456' }
       await authHelper.register({ name: 'Lory', ...credentials });
       const login = await authHelper.login(credentials);
-      const token2 = login.data.token.user._id;
+      const token2 = login.data.token;
       textAnalyzer.setAuthToken(token2);
       textAnalyzer.deleteParagraph(paragraphId).catch(error => {
         expect(error.status).toEqual(403);

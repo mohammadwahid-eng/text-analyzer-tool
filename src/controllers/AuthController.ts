@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import Joi from 'joi';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import User from "../models/User";
+import Token from "../models/Token";
+import { IJwtPayload } from "../interfaces/IJwtPayload";
 
 export const register = async (req: Request, res: Response) => {
   const { error } = Joi.object({
@@ -42,9 +45,13 @@ export const login = async (req: Request, res: Response) => {
 
     if( ! await bcrypt.compare(password, user.password) ) return res.status(401).json({ message: 'Invalid credentials' });
 
-    const token = { user: { _id: user.id, name: user.name, email } };
+    const payload: IJwtPayload = { user: { _id: user._id, email, name: user.name } }
 
-    return res.status(200).json({ _id: user._id, name: user.name, email, token });
+    const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+    const expiresAt = new Date(Date.now() + 3600 * 1000); // 1h from now
+    await Token.create({ token, user: user._id, expiresAt });
+
+    return res.status(200).json({ ...payload, token });
   } catch(error) {
     return res.status(500).json({ message: 'Oops! failed to registration.' });
   }

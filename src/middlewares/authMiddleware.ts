@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import jwt from 'jsonwebtoken';
+import { IJwtPayload } from "../interfaces/IJwtPayload";
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -11,8 +13,8 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   
     // extract and verify token
     const token = authHeader.split(' ')[1];
-
-    req.user = { _id: token, name: 'Mohammad Wahid', email: 'wahid@gmail.com' };
+    const decode = jwt.verify(token, process.env.JWT_SECRET as string) as IJwtPayload;
+    req.user = decode.user;
     next();
   } catch(error) {
     return res.status(401).json({ message: 'Unauthorized' });

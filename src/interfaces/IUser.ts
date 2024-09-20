@@ -1,4 +1,5 @@
 import { IParagraph } from "./IParagraph";
+import { IToken } from "./IToken";
 
 export interface IUser {
   _id: string,
@@ -6,8 +7,9 @@ export interface IUser {
   email: string,
   password: string,
   paragraphs?: IParagraph[],
-  createdAt?: Date;
-  updatedAt?: Date;
+  tokens?: IToken[],
+  createdAt?: Date,
+  updatedAt?: Date,
 }
 
 export type IAuthUser = Omit<IUser, 'password' | 'paragraphs' | 'createdAt' | 'updatedAt'>

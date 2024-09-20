@@ -26,7 +26,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(rateLimit({ windowMs: 1 * 60 * 1000, limit: 100 })); // 100 requests / min
+app.use(rateLimit({ windowMs: 1 * 60 * 1000, limit: 500 })); // 500 requests / min
 
 // routes
 app.use(webRouter);
