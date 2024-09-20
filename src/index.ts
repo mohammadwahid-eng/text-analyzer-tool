@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
+import path from 'path';
 import { webRouter, apiRouter } from './routes';
 import * as database from './config/database';
 
@@ -11,6 +12,10 @@ import * as database from './config/database';
 dotenv.config();
 const app: Application = express();
 const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+
+// set view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // database connection
 database.connect();

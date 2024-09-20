@@ -21,7 +21,16 @@ export const createParagraph = async (req: Request, res: Response) => {
 
 export const getAllParagraphs = async (req: Request, res: Response) => {
   try {
-    const paragraphs = await Paragraph.find({ userId: req.user?._id });
+    const paragraphs = await Paragraph.find().populate('userId');
+    return paragraphs;
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+export const getMyParagraphs = async (req: Request, res: Response) => {
+  try {
+    const paragraphs = await Paragraph.find({ userId: req.user?._id }).populate('userId');
     return res.status(200).json(paragraphs);
   } catch(error) {
     return res.status(500).json({ message: 'Oops! failed to get paragraphs.' });

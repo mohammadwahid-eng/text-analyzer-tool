@@ -7,7 +7,7 @@ const apiRouter: Router = Router();
 
 // paragraph routes
 apiRouter.post('/paragraphs', authMiddleware, ParagraphController.createParagraph);
-apiRouter.get('/paragraphs', authMiddleware, ParagraphController.getAllParagraphs);
+apiRouter.get('/paragraphs', authMiddleware, ParagraphController.getMyParagraphs);
 apiRouter.get('/paragraphs/:id', authMiddleware, ParagraphController.getParagraph);
 apiRouter.patch('/paragraphs/:id', authMiddleware, ParagraphController.updateParagraph);
 apiRouter.delete('/paragraphs/:id', authMiddleware, ParagraphController.deleteParagraph);
