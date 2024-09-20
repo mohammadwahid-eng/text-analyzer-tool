@@ -1,4 +1,4 @@
-# text-analyzer-tool
+# Text Analyzer Tool ⚙️
 
 This application generates count of words, characters, sentences, paragraphs, longest word in the paragraph.
 
@@ -19,7 +19,7 @@ Follow the steps below to set up the project on your local machine.
 Clone the project from GitHub to your local machine.
 
 ```bash
-git clone https://github.com/mohammadwahid-eng/text-analyzer-tool.git
+git clone https://github.com/mohammadwahparagraphId-eng/text-analyzer-tool.git
 ```
 
 ### 2. Install Dependencies
@@ -33,7 +33,7 @@ npm install
 ### 3. MongoDB Setup
 Ensure MongoDB is running on your local machine. You can use MongoDB Atlas for cloud-hosted MongoDB or set it up locally.
 
-- For a local MongoDB setup, follow this [guide](https://docs.mongodb.com/manual/installation/).
+- For a local MongoDB setup, follow this [guparagraphIde](https://docs.mongodb.com/manual/installation/).
 - The default MongoDB connection URL is defined in the `.env` file as `MONGO_URI`. Update this if necessary.
 
 
@@ -76,3 +76,32 @@ npm test
 
 The coverage report will be generated in the coverage/ directory. Open the `Icov-report/index.html` file in your browser to view the detailed report.
 
+<br>
+
+# API Documentation 🚀
+### Overview
+This API provparagraphIdes functionality for user authentication and paragraph management. Users can register, log in, and manage their paragraphs. Operations on paragraphs are restricted to the owner only, ensuring privacy and security.
+
+### Authentication
+All requests (except for registration, login and homepage of web) require a Bearer token obtained after logging in.
+
+### Authentication Flow
+1. Register: Create a new user account.
+2. Login: Authenticate and obtain a `Bearer` token for subsequent requests.
+
+### Endpoints
+- `POST /api/auth/register` -> payload: `name`,  `email`, `password`
+- `POST /api/auth/login` --> payload  : `email`, `password`
+- `POST /api/paragraphs` --> payload  : `body`
+- `GET /api/paragraphs`
+- `GET /api/paragraphs/:paragraphId`
+- `PATCH /api/paragraphs/:paragraphId` --> payload: `body`
+- `DELETE /api/paragraphs/:paragraphId`
+- `GET /api/paragraphs/:paragraphId/words`
+- `GET /api/paragraphs/:paragraphId/characters`
+- `GET /api/paragraphs/:paragraphId/sentences`
+- `GET /api/paragraphs/:paragraphId/count`
+- `GET /api/paragraphs/:paragraphId/longest-words`
+
+### Web
+- `GET /` --> Display all paragraphs including with author
