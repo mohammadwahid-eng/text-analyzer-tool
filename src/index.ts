@@ -5,6 +5,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
 import path from 'path';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './docs/swagger.json';
 import { webRouter, apiRouter } from './routes';
 import * as database from './config/database';
 
@@ -31,6 +33,7 @@ app.use(rateLimit({ windowMs: 1 * 60 * 1000, limit: 500 })); // 500 requests / m
 // routes
 app.use(webRouter);
 app.use('/api', apiRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // listen server
 app.listen(port, () => console.log(`Application running on port: ${port}`));
