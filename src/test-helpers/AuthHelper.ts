@@ -1,11 +1,12 @@
-import client, { AxiosInstance } from "axios";
-import { ILoginUser, IRegisterUser } from "../interfaces/IUser";
+import client, { AxiosInstance } from 'axios';
+import { ILoginUser, IRegisterUser } from '../interfaces/IUser';
 
 class AuthHelper {
   axios: AxiosInstance;
   constructor() {
+    const port = process.env.PORT || 3000;
     this.axios = client.create({
-      baseURL: 'http://localhost:3000/api',
+      baseURL: `http://localhost:${port}/api`,
       timeout: 30000,
     });
   }

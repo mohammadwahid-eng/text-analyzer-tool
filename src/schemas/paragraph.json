@@ -12,5 +12,13 @@
       "items": { "type": "string" }
     }
   },
-  "required": ["_id", "body", "totalWords", "totalCharacters", "totalSentences", "totalParagraphs", "longestWords"]
+  "required": [
+    "_id",
+    "body",
+    "totalWords",
+    "totalCharacters",
+    "totalSentences",
+    "totalParagraphs",
+    "longestWords"
+  ]
 }

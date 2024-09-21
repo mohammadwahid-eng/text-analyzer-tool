@@ -5,7 +5,7 @@ const webRouter: Router = Router();
 
 webRouter.get('/', async (req: Request, res: Response) => {
   const paragraphs = await ParagraphController.getAllParagraphs(req, res);
-  res.render('index', {paragraphs});
+  res.render('index', { paragraphs });
 });
 
 export default webRouter;

@@ -1,7 +1,4 @@
-import apiRouter from "./apiRouter";
-import webRouter from "./webRouter";
+import apiRouter from './apiRouter';
+import webRouter from './webRouter';
 
-export {
-  webRouter,
-  apiRouter,
-}
+export { webRouter, apiRouter };

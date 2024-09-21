@@ -1,10 +1,11 @@
-import client, { AxiosInstance } from "axios";
+import client, { AxiosInstance } from 'axios';
 
 class TextAnalyzerHelper {
   axios: AxiosInstance;
   constructor() {
+    const port = process.env.PORT || 3000;
     this.axios = client.create({
-      baseURL: 'http://localhost:3000/api',
+      baseURL: `http://localhost:${port}/api`,
       timeout: 30000,
     });
   }

@@ -1,7 +1,7 @@
-import TextAnalyzerHelper from "../../test-helpers/TextAnalyzerHelper";
-import AuthHelper from "../../test-helpers/AuthHelper";
+import TextAnalyzerHelper from '../../test-helpers/TextAnalyzerHelper';
+import AuthHelper from '../../test-helpers/AuthHelper';
 import paragraphSchema from '../../schemas/paragraph.json';
-import { ILoginUser } from "../../interfaces/IUser";
+import { ILoginUser } from '../../interfaces/IUser';
 
 describe('Text Analyzer API Test', () => {
   const textAnalyzer = new TextAnalyzerHelper();
@@ -15,7 +15,7 @@ describe('Text Analyzer API Test', () => {
 
   beforeAll(async () => {
     // login user
-    await authHelper.register({ name: 'John', ...user});
+    await authHelper.register({ name: 'John', ...user });
     const response = await authHelper.login(user);
     token = response.data.token;
   });
@@ -23,16 +23,18 @@ describe('Text Analyzer API Test', () => {
   beforeEach(async () => {
     // set auth token
     textAnalyzer.setAuthToken(token);
-    
+
     // create a paragraph before each test to make sure data exist in database for the tests
-    const body = '"The quick brown fox jumps over the lazy dog. The lazy dog slept in the sun."';
+    const body =
+      '"The quick brown fox jumps over the lazy dog. The lazy dog slept in the sun."';
     const response = await textAnalyzer.createParagraph({ body });
     paragraphId = response.data._id;
   });
 
   describe('POST /paragraphs --> create paragraph', () => {
     test('should creare a paragraph', async () => {
-      const body = 'The swift red fox leaps over the sleepy cat. The sleepy cat basked in the warm sun.';
+      const body =
+        'The swift red fox leaps over the sleepy cat. The sleepy cat basked in the warm sun.';
       const response = await textAnalyzer.createParagraph({ body });
       expect(response.status).toEqual(201);
       expect(response.data.body).toEqual(body);
@@ -50,7 +52,10 @@ describe('Text Analyzer API Test', () => {
       const response = await textAnalyzer.getAllParagraphs();
       expect(response.status).toEqual(200);
       expect(response.data.length).toBeGreaterThan(0);
-      expect(response.data).toMatchSchema({ type: 'array', items: paragraphSchema });
+      expect(response.data).toMatchSchema({
+        type: 'array',
+        items: paragraphSchema,
+      });
     });
   });
 
@@ -62,28 +67,35 @@ describe('Text Analyzer API Test', () => {
     });
 
     test('should not get a paragraph by id of other user', async () => {
-      const credentials: ILoginUser = { email: `lory+${Date.now()}@gmail.com`, password: '123456' }
+      const credentials: ILoginUser = {
+        email: `lory+${Date.now()}@gmail.com`,
+        password: '123456',
+      };
       await authHelper.register({ name: 'Lory', ...credentials });
       const login = await authHelper.login(credentials);
       const token2 = login.data.token;
       textAnalyzer.setAuthToken(token2);
-      textAnalyzer.getParagraph(paragraphId).catch(error => {
+      textAnalyzer.getParagraph(paragraphId).catch((error) => {
         expect(error.status).toEqual(403);
-        expect(error.response.data.message).toEqual("Access forbidden");
+        expect(error.response.data.message).toEqual('Access forbidden');
       });
     });
 
     test('should get http status 404 when paragraph id invalid and length (24)', () => {
-      textAnalyzer.getParagraph("123412341234123412341234").catch(error => {
+      textAnalyzer.getParagraph('123412341234123412341234').catch((error) => {
         expect(error.status).toEqual(404);
-        expect(error.response.data.message).toEqual("Sorry! no paragraph found.");
+        expect(error.response.data.message).toEqual(
+          'Sorry! no paragraph found.'
+        );
       });
     });
 
     test('should get http status 500 when paragraph id invalid and length not (24)', () => {
-      textAnalyzer.getParagraph("12345").catch(error => {
+      textAnalyzer.getParagraph('12345').catch((error) => {
         expect(error.status).toEqual(500);
-        expect(error.response.data.message).toEqual("Oops! failed to get the paragraph.");
+        expect(error.response.data.message).toEqual(
+          'Oops! failed to get the paragraph.'
+        );
       });
     });
 
@@ -94,13 +106,17 @@ describe('Text Analyzer API Test', () => {
     });
 
     test('GET /characters --> should return the number of characters in paragraphs', async () => {
-      const response = await textAnalyzer.getParagraphCharactersCount(paragraphId);
+      const response = await textAnalyzer.getParagraphCharactersCount(
+        paragraphId
+      );
       expect(response.status).toEqual(200);
       expect(response.data.count).toBeGreaterThan(0);
     });
 
     test('GET /sentences should --> return the number of sentences in paragraphs', async () => {
-      const response = await textAnalyzer.getParagraphSentencesCount(paragraphId);
+      const response = await textAnalyzer.getParagraphSentencesCount(
+        paragraphId
+      );
       expect(response.status).toEqual(200);
       expect(response.data.count).toBeGreaterThan(0);
     });
@@ -121,7 +137,9 @@ describe('Text Analyzer API Test', () => {
   describe('PATCH /paragraphs/:id --> update paragraph', () => {
     test('should update a paragraph by id', async () => {
       const body = 'This is updated text.';
-      const response = await textAnalyzer.updateParagraph(paragraphId, { body });
+      const response = await textAnalyzer.updateParagraph(paragraphId, {
+        body,
+      });
       expect(response.status).toEqual(200);
       expect(response.data._id).toEqual(paragraphId);
       expect(response.data.body).toEqual(body);
@@ -129,15 +147,20 @@ describe('Text Analyzer API Test', () => {
     });
 
     test('should not update a paragraph by id of another user', async () => {
-      const credentials: ILoginUser = { email: `lory+${Date.now()}@gmail.com`, password: '123456' }
+      const credentials: ILoginUser = {
+        email: `lory+${Date.now()}@gmail.com`,
+        password: '123456',
+      };
       await authHelper.register({ name: 'Lory', ...credentials });
       const login = await authHelper.login(credentials);
       const token2 = login.data.token;
       textAnalyzer.setAuthToken(token2);
-      textAnalyzer.updateParagraph(paragraphId, { body: 'New content' }).catch(error => {
-        expect(error.status).toEqual(403);
-        expect(error.response.data.message).toEqual("Access forbidden");
-      });
+      textAnalyzer
+        .updateParagraph(paragraphId, { body: 'New content' })
+        .catch((error) => {
+          expect(error.status).toEqual(403);
+          expect(error.response.data.message).toEqual('Access forbidden');
+        });
     });
   });
 
@@ -148,14 +171,17 @@ describe('Text Analyzer API Test', () => {
     });
 
     test('should not delete a paragraph by id of another user', async () => {
-      const credentials: ILoginUser = { email: `lory+${Date.now()}@gmail.com`, password: '123456' }
+      const credentials: ILoginUser = {
+        email: `lory+${Date.now()}@gmail.com`,
+        password: '123456',
+      };
       await authHelper.register({ name: 'Lory', ...credentials });
       const login = await authHelper.login(credentials);
       const token2 = login.data.token;
       textAnalyzer.setAuthToken(token2);
-      textAnalyzer.deleteParagraph(paragraphId).catch(error => {
+      textAnalyzer.deleteParagraph(paragraphId).catch((error) => {
         expect(error.status).toEqual(403);
-        expect(error.response.data.message).toEqual("Access forbidden");
+        expect(error.response.data.message).toEqual('Access forbidden');
       });
     });
   });

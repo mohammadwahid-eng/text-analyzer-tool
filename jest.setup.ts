@@ -1,3 +1,3 @@
-import { matchers } from "jest-json-schema";
+import { matchers } from 'jest-json-schema';
 
 expect.extend(matchers);

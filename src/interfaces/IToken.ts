@@ -1,8 +1,8 @@
-import { IUser } from "./IUser";
+import { IUser } from './IUser';
 
 export interface IToken {
-  _id: string,
-  token: string,
-  user: IUser,
-  expiresAt: Date,
+  _id: string;
+  token: string;
+  user: IUser;
+  expiresAt: Date;
 }

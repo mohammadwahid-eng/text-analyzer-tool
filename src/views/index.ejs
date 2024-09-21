@@ -1,43 +1,63 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bootstrap demo</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    </head>
-    <body>
-        <div class="container-fluid">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Content</th>
+                        <th scope="col">Words</th>
+                        <th scope="col">Characters</th>
+                        <th scope="col">Sentences</th>
+                        <th scope="col">Paragraphs</th>
+                        <th scope="col">Longest words</th>
+                        <th scope="col">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% paragraphs.map((item)=> { %>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Content</th>
-                            <th scope="col">Words</th>
-                            <th scope="col">Characters</th>
-                            <th scope="col">Sentences</th>
-                            <th scope="col">Paragraphs</th>
-                            <th scope="col">Longest words</th>
-                            <th scope="col">Author</th>
+                            <th scope="row">
+                                <%= item._id %>
+                            </th>
+                            <td>
+                                <%= item.body %>
+                            </td>
+                            <td>
+                                <%= item.totalWords %>
+                            </td>
+                            <td>
+                                <%= item.totalCharacters %>
+                            </td>
+                            <td>
+                                <%= item.totalSentences %>
+                            </td>
+                            <td>
+                                <%= item.totalParagraphs %>
+                            </td>
+                            <td>
+                                <%= item.longestWords %>
+                            </td>
+                            <td>
+                                <%= item.userId.name %>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <% paragraphs.map((item) => { %>
-                            <tr>
-                                <th scope="row"><%= item._id %></th>
-                                <td><%= item.body %></td>
-                                <td><%= item.totalWords %></td>
-                                <td><%= item.totalCharacters %></td>
-                                <td><%= item.totalSentences %></td>
-                                <td><%= item.totalParagraphs %></td>
-                                <td><%= item.longestWords %></td>
-                                <td><%= item.userId.name %></td>
-                            </tr>
                         <% }); %>
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
